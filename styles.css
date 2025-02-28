@@ -1,0 +1,22 @@
+h1
+{
+    text-align: center;
+}
+body
+{
+    background-color: powderblue;
+    text-align: center;
+}
+.question
+{
+    font-size: 32pt;
+}
+input[type=text]
+{
+    font-size: inherit;
+}
+#countdown
+{
+    font-size: 64pt;
+    margin: 0;
+}
