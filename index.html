@@ -1,5 +1,6 @@
 <html>
 
+<!-- title and the style of the web page -->
 <head>
     <title>Times tables quiz</title>
     <link rel="stylesheet" href="styles.css">
@@ -7,23 +8,31 @@
 
 <body>
 
-<h1>Times tables quiz</h1>
+    <h1>Times tables quiz</h1>
 
-<div>
-<form>
-    <label for="numqs">Number of questions</label>
-    <input type="text" name="numqs" id="numqs" required>
-    <br>
-    <label for="timeperq">Seconds per question</label>
-    <input type="text" name="timeperq" id="timeperq" required>
-    <br>
-</form>
-<button id="startbutton" onclick="onStart(this.id)">Click to start</button>
-<p id="countdown"></p>
-</div>
+    <!-- the static structure of the web page -->
+    <div>
 
+        <!-- asking the user to confirm the configuration to use -->
+        <form>
+            <label for="numqs">Number of questions</label>
+            <input type="text" name="numqs" id="numqs" required>
+            <br>
+            <label for="timeperq">Seconds per question</label>
+            <input type="text" name="timeperq" id="timeperq" required>
+            <br>
+        </form>
 
-<script src="js/script.js"></script>
+        <!-- interact with the user to start the quiz -->
+        <button id="startbutton" onclick="onStart(this.id)">Click to start</button>
+
+        <!-- the countdown timer -->
+        <p id="countdown"></p>
+
+    </div>
+
+    <!-- the dynamic part of the webpage -->
+    <script src="js/script.js"></script>
 
 </body>
 
