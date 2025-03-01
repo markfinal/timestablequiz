@@ -10,12 +10,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("timeperq").value = Math.floor(number_of_seconds / 1000)
 });
 
-
+// generate a random integer within the bounds [min, max]
 function randomIntFromInterval(min, max)
 {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+// generate a Question object containing the numbers to the left-hand-side,
+// right-hand-side, and storing the answer to compare against later
 function Question(lhs, rhs)
 {
     this.lhs = lhs
@@ -23,13 +25,15 @@ function Question(lhs, rhs)
     this.answer = lhs * rhs
 }
 
+// generate a list of N questions, where N is the number of questions
+// the questions must not repeat (each are unique), although X x Y is considered
+// different to Y x X
 function Questions()
 {
     list = []
-    // generate unique questions - duplicates are discarded and tried again
-    // note that X x Y is a different question to Y x X even though it's the same answer
     for (n = 0; n < number_of_questions; ++n)
     {
+        // this loop is broken out of when a unique question is added to the list
         while (true)
         {
             q = new Question(randomIntFromInterval(1, 12), randomIntFromInterval(1, 12))
@@ -38,17 +42,15 @@ function Questions()
             {
                 if (JSON.stringify(list[i]) == JSON.stringify(q))
                 {
-                    console.warn(`Found dup! ${q.lhs} ${q.rhs} at ${i}`)
                     found = true
+                    // break out of the comparison 'for' loop
                     break
                 }
             }
             if (!found)
             {
-                console.info(`${i}: No dup! ${q.lhs} ${q.rhs}`)
                 list.push(q)
-
-                // break out of while loop
+                // break out of the outer 'while' loop
                 break
             }
         }
@@ -56,37 +58,57 @@ function Questions()
     return list
 }
 
+// create the HTML elements for the questions
 function makeQuestionUI()
 {
+    // this is the div that contains all of the questions
     var outerdiv = document.createElement("div")
     outerdiv.id = "outerdiv"
+
     for (i = 0; i < questions.length; ++i)
     {
+        // this is the div that contains the question and answer input
         var div = document.createElement("div")
         div.id = `div${i}`
         div.className = "question"
         div.style.display = "none"
 
+        // just a label with the question
         var question = document.createTextNode(`${questions[i].lhs} x ${questions[i].rhs} =`)
+
+        // an input box for the answer
         var x = document.createElement("input");
+        x.setAttribute("type", "text");
+
         x.id = `answer${i}`
         x.classname = "answer"
-        x.question_index = i
         x.autocomplete = false
-        x.setAttribute("type", "text");
-        x.addEventListener("keydown", function (e) {
-            if (e.code === "Enter") {
-                validate(e.target);
+
+        x.question_index = i // a custom attribute to record which question was asked
+
+        // listen for when the user presses the Enter key
+        // in order to check the answer
+        x.addEventListener("keydown", function (e)
+        {
+            if (e.code === "Enter")
+            {
+                check_answer(e.target);
             }
         });
 
+        // now store the question label and input in the question div
         div.appendChild(question)
         div.appendChild(x)
+
+        // now store the question div in the outer div
         outerdiv.appendChild(div)
     }
+
+    // now store the outer div in the web page
     document.body.appendChild(outerdiv)
 }
 
+// remove the UI for questions
 function removeQuestionUI()
 {
     var outerdiv = document.getElementById("outerdiv")
@@ -96,7 +118,15 @@ function removeQuestionUI()
     }
 }
 
-function validate(answer)
+// check whether the answer given is right
+// this might happen if the user has pressed enter
+// or if the timeout has occurred
+// mark the answer as correct or incorrect
+// unhide the next question
+// move the focus to the input for the next answer
+// restart the timer
+// if finished, enable the startbutton and declare finished
+function check_answer(answer)
 {
     current_timer.stop()
 
@@ -131,6 +161,7 @@ function validate(answer)
     current_timer = new countdown(next_index)
 }
 
+// call this to create a countdown timer
 var countdown = function(question_index)
 {
     thing = document.getElementById("countdown")
@@ -146,7 +177,7 @@ var countdown = function(question_index)
         if (next == 0)
         {
             // signal to check
-            validate(document.getElementById(`answer${question_index}`))
+            check_answer(document.getElementById(`answer${question_index}`))
         }
     }
 
@@ -160,9 +191,10 @@ var countdown = function(question_index)
     this.stop = stop
 }
 
+// this is called when the user presses the Start button
 function onStart(id)
 {
-    // hide the button
+    // don't let anyone press Start again until finished
     document.getElementById(id).disabled = true
 
     // fetch modifications to the number of questions and time
