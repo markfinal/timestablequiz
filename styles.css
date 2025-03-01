@@ -1,20 +1,20 @@
-h1
-{
-    text-align: center;
-}
+/* The whole body has centred text and a background colour */
 body
 {
     background-color: powderblue;
     text-align: center;
 }
+/* elements of class question have a large font size */
 .question
 {
     font-size: 32pt;
 }
+/* elements of type input (where you write answers) inherits the font size */
 input[type=text]
 {
     font-size: inherit;
 }
+/* the countdown timer id has an even larger font size, and no margins */
 #countdown
 {
     font-size: 64pt;
