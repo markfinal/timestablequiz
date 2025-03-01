@@ -8,12 +8,12 @@ var questions = null
 document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("numqs").value = number_of_questions
     document.getElementById("timeperq").value = Math.floor(number_of_seconds / 1000)
-});
+})
 
 // generate a random integer within the bounds [min, max]
 function randomIntFromInterval(min, max)
 {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 // generate a Question object containing the numbers to the left-hand-side,
@@ -77,8 +77,8 @@ function makeQuestionUI()
         var question = document.createTextNode(`${questions[i].lhs} x ${questions[i].rhs} =`)
 
         // an input box for the answer
-        var x = document.createElement("input");
-        x.setAttribute("type", "text");
+        var x = document.createElement("input")
+        x.setAttribute("type", "text")
 
         x.id = `answer${i}`
         x.classname = "answer"
@@ -92,9 +92,9 @@ function makeQuestionUI()
         {
             if (e.code === "Enter")
             {
-                check_answer(e.target);
+                check_answer(e.target)
             }
-        });
+        })
 
         // now store the question label and input in the question div
         div.appendChild(question)
@@ -103,6 +103,24 @@ function makeQuestionUI()
         // now store the question div in the outer div
         outerdiv.appendChild(div)
     }
+
+    var num_correct_images = 4
+    correct_image_index = randomIntFromInterval(1, num_correct_images)
+
+    var correct_image = document.createElement("img")
+    correct_image.id = "correct"
+    correct_image.setAttribute("src", `img/correct/${correct_image_index}.JPG`)
+    correct_image.style.display = "none"
+    outerdiv.appendChild(correct_image)
+
+    var num_incorrect_images = 4
+    incorrect_image_index = randomIntFromInterval(1, num_incorrect_images)
+
+    var incorrect_image = document.createElement("img")
+    incorrect_image.id = "incorrect"
+    incorrect_image.setAttribute("src", `img/incorrect/${incorrect_image_index}.JPG`)
+    incorrect_image.style.display = "none"
+    outerdiv.appendChild(incorrect_image)
 
     // now store the outer div in the web page
     document.body.appendChild(outerdiv)
@@ -129,11 +147,15 @@ function removeQuestionUI()
 function check_answer(answer)
 {
     current_timer.stop()
+    answer.blur()
 
     index = answer.question_index
 
     answered = document.getElementById(`div${index}`)
-    if (answer.value == questions[index].answer)
+
+    success = answer.value == questions[index].answer
+
+    if (success)
     {
         answer.style.background = "green"
         answer.value += " ✔"
@@ -147,8 +169,19 @@ function check_answer(answer)
     next_index = index + 1
     if (next_index == number_of_questions)
     {
-        document.getElementById("startbutton").disabled = false
-        document.getElementById("countdown").textContent = "Finished!"
+        start_button = document.getElementById("startbutton").disabled = false
+
+        document.getElementById("countdown").textContent = "Finished"
+
+        if (success)
+        {
+            document.getElementById("correct").style.display = "block"
+        }
+        else
+        {
+            document.getElementById("incorrect").style.display = "block"
+        }
+
         return
     }
 

@@ -20,3 +20,9 @@ input[type=text]
     font-size: 64pt;
     margin: 0;
 }
+img
+{
+    padding: inherit;
+    margin:auto;
+    display: block;
+}
