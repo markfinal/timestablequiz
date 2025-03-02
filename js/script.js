@@ -148,6 +148,7 @@ function check_answer(answer)
 {
     current_timer.stop()
     answer.blur()
+    answer.disabled = true
 
     index = answer.question_index
 
