@@ -62,33 +62,34 @@ function Questions()
 function makeQuestionUI()
 {
     // this is the div that contains all of the questions
-    var outerdiv = document.createElement("div")
-    outerdiv.id = "outerdiv"
+    var outer_container = document.createElement("div")
+    outer_container.id = "outer_container"
 
     for (i = 0; i < questions.length; ++i)
     {
         // this is the div that contains the question and answer input
-        var div = document.createElement("div")
-        div.id = `div${i}`
-        div.className = "question"
-        div.style.display = "none"
+        var question_container = document.createElement("div")
+        question_container.id = `question_container_${i}`
+        question_container.className = "question_container"
 
         // just a label with the question
-        var question = document.createTextNode(`${questions[i].lhs} x ${questions[i].rhs} =`)
+        var question = document.createElement("p")
+        question.innerHTML = `${questions[i].lhs} x ${questions[i].rhs} =`
+        question.className = "question"
 
         // an input box for the answer
-        var x = document.createElement("input")
-        x.setAttribute("type", "text")
+        var answer = document.createElement("input")
+        answer.setAttribute("type", "text")
 
-        x.id = `answer${i}`
-        x.classname = "answer"
-        x.autocomplete = false
+        answer.id = `answer_${i}`
+        answer.className = "answer"
+        answer.autocomplete = false // don't suggest answers
 
-        x.question_index = i // a custom attribute to record which question was asked
+        answer.question_index = i // a custom attribute to record which question was asked
 
         // listen for when the user presses the Enter key
         // in order to check the answer
-        x.addEventListener("keydown", function (e)
+        answer.addEventListener("keydown", function (e)
         {
             if (e.code === "Enter")
             {
@@ -97,21 +98,21 @@ function makeQuestionUI()
         })
 
         // now store the question label and input in the question div
-        div.appendChild(question)
-        div.appendChild(x)
+        question_container.appendChild(question)
+        question_container.appendChild(answer)
 
         // now store the question div in the outer div
-        outerdiv.appendChild(div)
+        outer_container.appendChild(question_container)
     }
 
+    // correct and incorrect images, randomly chosen
     var num_correct_images = 4
     correct_image_index = randomIntFromInterval(1, num_correct_images)
 
     var correct_image = document.createElement("img")
     correct_image.id = "correct"
     correct_image.setAttribute("src", `img/correct/${correct_image_index}.JPG`)
-    correct_image.style.display = "none"
-    outerdiv.appendChild(correct_image)
+    outer_container.appendChild(correct_image)
 
     var num_incorrect_images = 4
     incorrect_image_index = randomIntFromInterval(1, num_incorrect_images)
@@ -119,20 +120,22 @@ function makeQuestionUI()
     var incorrect_image = document.createElement("img")
     incorrect_image.id = "incorrect"
     incorrect_image.setAttribute("src", `img/incorrect/${incorrect_image_index}.JPG`)
+    outer_container.appendChild(incorrect_image)
+
+    correct_image.style.display = "none"
     incorrect_image.style.display = "none"
-    outerdiv.appendChild(incorrect_image)
 
     // now store the outer div in the web page
-    document.body.appendChild(outerdiv)
+    document.body.appendChild(outer_container)
 }
 
 // remove the UI for questions
 function removeQuestionUI()
 {
-    var outerdiv = document.getElementById("outerdiv")
-    if (document.contains(outerdiv))
+    var outer_container = document.getElementById("outer_container")
+    if (document.contains(outer_container))
     {
-        outerdiv.remove()
+        outer_container.remove()
     }
 }
 
@@ -184,10 +187,10 @@ function check_answer(answer)
         return
     }
 
-    next = document.getElementById(`div${next_index}`)
-    next.style.display = "block"
+    next = document.getElementById(`question_container_${next_index}`)
+    next.style.display = "flex"
 
-    document.getElementById(`answer${next_index}`).focus()
+    document.getElementById(`answer_${next_index}`).focus()
 
     // start the next timer
     current_timer = new countdown(next_index)
@@ -196,17 +199,17 @@ function check_answer(answer)
 // call this to create a countdown timer
 var countdown = function(question_index)
 {
-    thing = document.getElementById("countdown")
-    interval = setInterval(doit, 1000)
+    text_element = document.getElementById("countdown")
+    interval = setInterval(do_tick, 1000)
     start = Date.now()
     total = number_of_seconds
-    thing.textContent = Math.floor(total / 1000)
+    text_element.textContent = Math.floor(total / 1000)
 
-    function doit()
+    function do_tick()
     {
-        next = Math.floor((total - (Date.now() - start)) / 1000)
-        thing.textContent = next
-        if (next == 0)
+        next_number = Math.floor((total - (Date.now() - start)) / 1000)
+        text_element.textContent = next_number
+        if (next_number == 0)
         {
             // signal to check
             check_answer(document.getElementById(`answer${question_index}`))
@@ -239,9 +242,9 @@ function onStart(id)
     makeQuestionUI()
 
     // show first question
-    first_question = document.getElementById("div0")
-    first_question.style.display = "block"
-    document.getElementById("answer0").focus()
+    first_question = document.getElementById("question_container_0")
+    first_question.style.display = "flex"
+    document.getElementById("answer_0").focus()
 
     // start the timer
     if (current_timer != null)

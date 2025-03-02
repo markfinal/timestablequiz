@@ -4,15 +4,26 @@ body
     background-color: powderblue;
     text-align: center;
 }
-/* elements of class question have a large font size */
+/* arrange the question/answers in a grid */
+.question_container
+{
+    display: none;
+    justify-content: space-evenly;
+}
+/* display the question right-aligned, smaller than the answer, in a large font */
 .question
 {
     font-size: 32pt;
+    margin: 0;
+    width: 30%;
+    text-align: right;
 }
-/* elements of type input (where you write answers) inherits the font size */
-input[type=text]
+/* display the answer left-aligned, with no space around it */
+.answer
 {
-    font-size: inherit;
+    font-size: 32pt;
+    margin: 0;
+    text-align: left;
 }
 /* the countdown timer id has an even larger font size, and no margins */
 #countdown
@@ -20,20 +31,20 @@ input[type=text]
     font-size: 64pt;
     margin: 0;
 }
-/* centre all images */
+/* display all images centred */
 img
 {
-    padding: inherit;
-    margin:auto;
-    display: block;
+    margin: auto;
 }
 /* style of a correct answer */
 .correct_answer
 {
     background-color: green;
+    font-size: 32pt;
 }
 /* style of an incorrect answer */
 .incorrect_answer
 {
     background-color: red;
+    font-size: 32pt;
 }
