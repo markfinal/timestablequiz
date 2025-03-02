@@ -152,8 +152,6 @@ function check_answer(answer)
 
     index = answer.question_index
 
-    answered = document.getElementById(`div${index}`)
-
     success = answer.value == questions[index].answer
 
     if (success)
