@@ -20,9 +20,20 @@ input[type=text]
     font-size: 64pt;
     margin: 0;
 }
+/* centre all images */
 img
 {
     padding: inherit;
     margin:auto;
     display: block;
+}
+/* style of a correct answer */
+.correct_answer
+{
+    background-color: green;
+}
+/* style of an incorrect answer */
+.incorrect_answer
+{
+    background-color: red;
 }

@@ -156,12 +156,12 @@ function check_answer(answer)
 
     if (success)
     {
-        answer.style.background = "green"
+        answer.className = "correct_answer"
         answer.value += " ✔"
     }
     else
     {
-        answer.style.background = "red"
+        answer.className = "incorrect_answer"
         answer.value += ` ✗ (= ${questions[index].answer})`
     }
 
