@@ -162,7 +162,7 @@ function check_answer(answer)
     else
     {
         answer.style.background = "red"
-        answer.value += " ✗"
+        answer.value += ` ✗ (= ${questions[index].answer})`
     }
 
     next_index = index + 1
