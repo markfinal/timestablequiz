@@ -180,6 +180,12 @@ function check_answer(answer)
         if (total_correct == number_of_questions)
         {
             document.getElementById("correct").style.display = "block"
+
+            confetti({
+                particleCount: 1000,
+                spread: 90, // wide angle
+                origin: { y: 1.0 }, // from bottom of screen
+              });
         }
         else
         {
