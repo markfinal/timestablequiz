@@ -8,14 +8,14 @@ body
 .question_container
 {
     display: none;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 /* display the question right-aligned, smaller than the answer, in a large font */
 .question
 {
     font-size: 32pt;
     margin: 0;
-    width: 30%;
+    width: 20%;
     text-align: right;
 }
 /* display the answer left-aligned, with no space around it */
