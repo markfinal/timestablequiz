@@ -3,6 +3,7 @@ var current_timer = null
 var number_of_questions = 10
 var number_of_seconds = 5500  // slightly over because it'll round down
 var questions = null
+var total_correct = 0
 
 // at startup
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -161,6 +162,7 @@ function check_answer(answer)
     {
         answer.className = "correct_answer"
         answer.value += " ✔"
+        total_correct += 1
     }
     else
     {
@@ -173,9 +175,9 @@ function check_answer(answer)
     {
         start_button = document.getElementById("startbutton").disabled = false
 
-        document.getElementById("countdown").textContent = "Finished"
+        document.getElementById("countdown").innerHTML = `Completed <sup>${total_correct}</sup> &frasl; <sub>${number_of_questions}</sub>`
 
-        if (success)
+        if (total_correct == number_of_questions)
         {
             document.getElementById("correct").style.display = "block"
         }
@@ -240,6 +242,8 @@ function onStart(id)
     questions = Questions()
     removeQuestionUI()
     makeQuestionUI()
+
+    total_correct = 0
 
     // show first question
     first_question = document.getElementById("question_container_0")
