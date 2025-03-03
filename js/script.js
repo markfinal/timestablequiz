@@ -212,7 +212,7 @@ var countdown = function(question_index)
         if (next_number == 0)
         {
             // signal to check
-            check_answer(document.getElementById(`answer${question_index}`))
+            check_answer(document.getElementById(`answer_${question_index}`))
         }
     }
 
