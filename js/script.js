@@ -185,6 +185,7 @@ function check_answer(answer)
                 particleCount: 1000,
                 spread: 90, // wide angle
                 origin: { y: 1.0 }, // from bottom of screen
+                shapes: ["star"],
               });
         }
         else
