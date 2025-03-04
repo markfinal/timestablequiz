@@ -218,7 +218,7 @@ var countdown = function(question_index)
     {
         next_number = Math.floor((total - (Date.now() - start)) / 1000)
         text_element.textContent = next_number
-        if (next_number == 0)
+        if (next_number <= 0)
         {
             // signal to check
             check_answer(document.getElementById(`answer_${question_index}`))
