@@ -81,6 +81,8 @@ function makeQuestionUI()
         // an input box for the answer
         var answer = document.createElement("input")
         answer.setAttribute("type", "text")
+        answer.setAttribute("inputmode", "numeric")
+        answer.setAttribute("pattern", "\d+")
 
         answer.id = `answer_${i}`
         answer.className = "answer"
